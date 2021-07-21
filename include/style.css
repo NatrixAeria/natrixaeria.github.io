@@ -4,6 +4,31 @@
     --primary-color: {% get theme-color };
 }
 
+@font-face {
+  font-family: ZillaSlab;
+  src: local('ZillaSlab')
+    url(https://natrixaeria.github.io/fonts/ZillaSlab-Regular.ttf) format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
 body {
+    margin: 0;
+    padding: 0;
     background: var(--background-color);
+}
+
+.global-card-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.global-card {
+    min-width: calc(0.5 * 100vw);
+}
+
+.page-title {
+    font-family: ZillaSlab;
 }
