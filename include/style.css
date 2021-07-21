@@ -1,0 +1,9 @@
+* { /* Global CSS Variables
+     * ==================== */
+    --background-color: plum;
+    --primary-color: {% get theme-color };
+}
+
+body {
+    background: var(--background-color);
+}

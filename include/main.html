@@ -15,24 +15,14 @@
         <meta name='referrer'
               content='no-referrer'>
         <meta name='theme-color'
-              content='lightyellow'>
+              content='{%set theme-color lightyellow}{%get theme-color}'>
 
         <style>
-* { /* Global CSS Variables
-     * ==================== */
-    --background-color: plum;
-    --primary-color: lightyellow;
-}
-
-body {
-    background: var(--background-color);
-}
+{%include include/style.css}
         </style>
 
     </head>
 
-    <body>
-  this is my test body
-    </body>
+    <body>{% get body }    </body>
 </html>
 
