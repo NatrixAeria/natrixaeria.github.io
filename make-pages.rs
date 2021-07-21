@@ -14,9 +14,7 @@ impl Context {
     }
 
     fn get(&self, name: &str) -> &str {
-        self.dir
-            .get(name)
-            .unwrap_or_else(|| panic!("could not find variable \"{}\"", name))
+        self.dir.get(name).map(String::as_str).unwrap_or("")
     }
 
     fn set(&mut self, name: String, value: String) {
