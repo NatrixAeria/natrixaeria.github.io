@@ -1,0 +1,226 @@
+<!doctype html>
+<html>
+    <head>
+        <title>NatrixHub</title>
+        <meta charset='utf-8'/>
+
+        <meta name='author'
+              content='NatrixAeria'>
+        <meta name='description'
+              content='my personal playground site'>
+        <meta name='generator'
+              content='my brain'>
+        <meta name='keywords'
+              content='playground,github pages'>
+        <meta name='referrer'
+              content='no-referrer'>
+        <meta name='theme-color'
+              content='#f0f3ff'>
+
+        <style>
+* { /* Global CSS Variables
+     * ==================== */
+    --background-color-1: #261b61;
+    --background-color-2: #522b71;
+    --primary-color: #f0f3ff;
+    --secondary-color: #c8f3d7;
+
+    --title-font-size: 1.4cm;
+    --h2-font-size: 1cm;
+    --p-font-size: 0.6cm;
+}
+
+@font-face {
+  font-family: "CustomZillaSlab";
+  src: url('https://natrixaeria.github.io/fonts/ZillaSlab-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "CustomZillaSlab";
+  src: url('https://natrixaeria.github.io/fonts/ZillaSlab-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: block;
+}
+
+@keyframes blink {
+    from { opacity: 1.0; }
+    to { opacity: 0.0; }
+}
+
+@keyframes rotation {
+    from { transform: rotate(  0deg); }
+    to   { transform: rotate(180deg); }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(45deg, var(--background-color-1), var(--background-color-2));
+    background-attachment: fixed;
+    color: var(--primary-color);
+    font-family: "CustomZillaSlab", serif;
+}
+
+h2 {
+    font-weight: normal;
+    font-size: var(--h2-font-size);
+}
+
+a {
+    text-decoration: none;
+}
+
+b {
+    color: var(--secondary-color);
+}
+
+p {
+    font-size: var(--p-font-size);
+}
+
+.display-flex {
+    display: flex;
+}
+
+.global-card-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.global-card {
+    min-width: calc(0.8 * 100vw);
+}
+
+.page-title {
+    font-size: var(--title-font-size);
+    display: inline-flex;
+    margin: .5cm;
+    color: var(--primary-color);
+}
+
+.title-rotating-x:hover {
+    transform-origin: calc(var(--title-font-size) * 0.255) calc(var(--title-font-size) * ((5.0 / 7.0) + 0.007));
+}
+
+.title-rotating-x:hover {
+    animation-name: rotation;
+    animation-iteration-count: 1;
+    animation-duration: .3s;
+    animation-timing-function: ease;
+}
+
+.blink-line-container {
+    width: calc(var(--title-font-size) * 0.5);
+    height: var(--title-font-size);
+}
+
+.blink-line {
+    margin-top: calc(var(--title-font-size) * 0.9);
+    height: calc(var(--title-font-size) * 0.1);
+    background: var(--primary-color);
+    display: block;
+    transform: translate(calc(var(--title-font-size) * 0.15), calc(var(--title-font-size) * 0.03));
+    animation-name: blink;
+    animation-iteration-count: infinite;
+    animation-duration: .5s;
+    animation-timing-function: cubic-bezier(1,-0.04,.21,.18);
+    animation-direction: alternate;
+}
+
+.line-separator {
+    border: none;
+    box-shadow: 0 0 0.3cm .1cm var(--primary-color);
+    margin: 0;
+}
+
+.navbar {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: right;
+}
+
+.navbar-item {
+    margin: .6cm .8cm;
+    color: var(--primary-color);
+    font-size: .5cm;
+    font-family: monospace;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    filter: brightness(75%);
+}
+
+.navbar-item-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.navbar-item:hover {
+    filter: brightness(100%);
+}
+
+.navbar-item img {
+    height: .9cm;
+    margin-right: .4cm;
+}
+
+.content-card-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.content-card {
+    min-width: 12cm;
+}
+        </style>
+
+    </head>
+
+    <body>
+    <div class='global-card-container'>
+        <div class='global-card'>
+            <div class='navbar'>
+                <a href='https://github.com/natrixaeria' class='navbar-item'>
+                    <div class='display-flex'>
+                        <img src='images/github-mark.png'>
+                        <span class='navbar-item-text'>Github Profile</span>
+                    </div>
+                </a>
+                <a href='/' class='navbar-item'>
+                    <div class='navbar-item-text'>About Me</div>
+                </a>
+            </div>
+            <a href='/' class='page-title'>
+                Natri<span class='title-rotating-x'>x</span>Hub
+                <span class='blink-line-container'><span class='blink-line'></span></span>
+            </a>
+        </div>
+    </div>
+    <div class='global-card-container'>
+        <div class='global-card'>
+            <hr class='line-separator' style='margin-bottom: 1cm'>
+            <div class='content-card-container'>
+                <div class='content-card'>
+                    
+    <div style='font-size: 1cm'>
+        <h1>404 - Page not found</h1>
+        <p>
+            What are you even searching for?!
+        </p>
+    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+</html>
+
+
