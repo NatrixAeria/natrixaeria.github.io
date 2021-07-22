@@ -54,6 +54,10 @@ body {
     color: var(--primary-color);
 }
 
+.display-flex {
+    display: flex;
+}
+
 .global-card-container {
     width: 100%;
     display: flex;
@@ -61,7 +65,7 @@ body {
 }
 
 .global-card {
-    min-width: calc(0.5 * 100vw);
+    min-width: calc(0.8 * 100vw);
 }
 
 .page-title {
@@ -120,11 +124,25 @@ body {
     text-decoration: none;
     font-size: .5cm;
     font-family: monospace;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     filter: brightness(75%);
+}
+
+.navbar-item-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .navbar-item:hover {
     filter: brightness(100%);
+}
+
+.navbar-item img {
+    height: .9cm;
+    margin-right: .4cm;
 }
         </style>
 
@@ -134,10 +152,16 @@ body {
     <div class='global-card-container'>
         <div class='global-card'>
             <div class='navbar'>
-                <a href='/' class='navbar-item'>About Me</a>
-                <a href='https://github.com/natrixaeria' class='navbar-item'>Github Profile</a>
+                <a href='https://github.com/natrixaeria' class='navbar-item'>
+                    <div class='display-flex'>
+                        <img src='images/github-mark.png'>
+                        <span class='navbar-item-text'>Github Profile</span>
+                    </div>
+                </a>
+                <a href='/' class='navbar-item'>
+                    <div class='navbar-item-text'>About Me</div>
+                </a>
             </div>
-            <hr class='line-separator'>
             <div class='page-title'>
                 Natri<span class='title-rotating-x'>x</span>Hub
                 <span class='blink-line-container'><span class='blink-line'></span></span>
