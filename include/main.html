@@ -12,15 +12,20 @@
                     <div class='navbar-item-text'>About Me</div>
                 </a>
             </div>
-            <div class='page-title'>
+            <a href='/' class='page-title'>
                 Natri<span class='title-rotating-x'>x</span>Hub
                 <span class='blink-line-container'><span class='blink-line'></span></span>
-            </div>
+            </a>
         </div>
     </div>
     <div class='global-card-container'>
         <div class='global-card'>
-            {% get content }
+            <hr class='line-separator' style='margin-bottom: 1cm'>
+            <div class='content-card-container'>
+                <div class='content-card'>
+                    {% get content }
+                </div>
+            </div>
         </div>
     </div>
 {% end }{% include include/base.html }

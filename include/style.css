@@ -3,15 +3,25 @@
     --background-color-1: #261b61;
     --background-color-2: #522b71;
     --primary-color: {% get theme-color };
-    --secondary-color: #353b55;
+    --secondary-color: #c8f3d7;
 
     --title-font-size: 1.4cm;
+    --h2-font-size: 1cm;
+    --p-font-size: 0.6cm;
 }
 
 @font-face {
   font-family: "CustomZillaSlab";
   src: url('https://natrixaeria.github.io/fonts/ZillaSlab-Regular.ttf') format('truetype');
-  font-weight: 400;
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "CustomZillaSlab";
+  src: url('https://natrixaeria.github.io/fonts/ZillaSlab-Bold.ttf') format('truetype');
+  font-weight: bold;
   font-style: normal;
   font-display: block;
 }
@@ -32,6 +42,24 @@ body {
     background: linear-gradient(45deg, var(--background-color-1), var(--background-color-2));
     background-attachment: fixed;
     color: var(--primary-color);
+    font-family: "CustomZillaSlab", serif;
+}
+
+h2 {
+    font-weight: normal;
+    font-size: var(--h2-font-size);
+}
+
+a {
+    text-decoration: none;
+}
+
+b {
+    color: var(--secondary-color);
+}
+
+p {
+    font-size: var(--p-font-size);
 }
 
 .display-flex {
@@ -49,10 +77,10 @@ body {
 }
 
 .page-title {
-    font-family: "CustomZillaSlab";
     font-size: var(--title-font-size);
     display: inline-flex;
     margin: .5cm;
+    color: var(--primary-color);
 }
 
 .title-rotating-x:hover {
@@ -85,9 +113,8 @@ body {
 }
 
 .line-separator {
-    border: .06cm solid var(--secondary-color);
-    box-shadow: 0px 0px 10cm .16cm var(--primary-color);
-    border-radius: 2cm;
+    border: none;
+    box-shadow: 0 0 0.3cm .1cm var(--primary-color);
     margin: 0;
 }
 
@@ -100,7 +127,6 @@ body {
 .navbar-item {
     margin: .6cm .8cm;
     color: var(--primary-color);
-    text-decoration: none;
     font-size: .5cm;
     font-family: monospace;
     display: flex;
@@ -122,4 +148,14 @@ body {
 .navbar-item img {
     height: .9cm;
     margin-right: .4cm;
+}
+
+.content-card-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.content-card {
+    min-width: 12cm;
 }
