@@ -5,7 +5,7 @@
         <meta charset='utf-8'/>
 
         <meta name='author'
-              content='NatrixAeria'>
+              content='{%get profile}'>
         <meta name='description'
               content='my personal playground site'>
         <meta name='generator'
@@ -15,7 +15,7 @@
         <meta name='referrer'
               content='no-referrer'>
         <meta name='theme-color'
-              content='{%set theme-color #f0f3ff}{%get theme-color}'>
+              content='{%get theme-color}'>
 
         <style>
 {%include include/style.css}
@@ -23,6 +23,7 @@
 
     </head>
 
-    <body>{% get body }    </body>
+    <body>{%!get body}
+    </body>
 </html>
 

@@ -1,6 +1,6 @@
 # This is the repository for **NatrixHub**
 
-See [NatrixHub](natrixaeria.github.io) for current hosting.
+See [NatrixHub](nat-rix.github.io) for current hosting.
 
 ## Building sources
 

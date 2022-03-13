@@ -12,7 +12,7 @@
 
 @font-face {
   font-family: "CustomZillaSlab";
-  src: url('https://natrixaeria.github.io/fonts/ZillaSlab-Regular.ttf') format('truetype');
+  src: url('{%get url}/fonts/ZillaSlab-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -20,7 +20,7 @@
 
 @font-face {
   font-family: "CustomZillaSlab";
-  src: url('https://natrixaeria.github.io/fonts/ZillaSlab-Bold.ttf') format('truetype');
+  src: url('{%get url}/fonts/ZillaSlab-Bold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
   font-display: block;

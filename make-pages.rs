@@ -35,24 +35,45 @@ fn process_file<P1: AsRef<Path>, P2: AsRef<Path>>(ctx: &mut Context, src: P1, ds
     .unwrap();
 }
 
+fn find_closing_brace(text: &str) -> Option<usize> {
+    let mut chars = text.chars();
+    loop {
+        let c = chars.next()?;
+        match c {
+            '}' => break Some(chars.as_str().as_ptr() as usize - text.as_ptr() as usize - 1),
+            '\\' => drop(chars.next()?),
+            _ => (),
+        }
+    }
+}
+
 fn process_file_helper(ctx: &mut Context, chars: &mut std::str::Chars) -> String {
     let mut result = String::new();
     loop {
         let text = chars.as_str();
-        let is_escape = text.starts_with("{%%");
-        if text.starts_with("{%") && !is_escape {
+        let is_meta = text.starts_with("{%");
+        let [is_escape, is_nolb] = if is_meta {
             chars.next().unwrap();
             chars.next().unwrap();
+            [
+                chars.as_str().starts_with('%'),
+                chars.as_str().starts_with('!'),
+            ]
+        } else {
+            [false; 2]
+        };
+        if is_escape || is_nolb {
+            chars.next().unwrap();
+        }
+        if is_meta && !is_escape {
             let text = chars.as_str();
-            if let Some(text_end) = text.find('}') {
+            if let Some(text_end) = find_closing_brace(text) {
                 let (cmd, args) = text[..text_end]
                     .trim()
                     .split_once(char::is_whitespace)
                     .unwrap_or_else(|| (text[..text_end].trim(), ""));
-                let (mut cmd, args) = (cmd.to_string(), args.to_string());
-                for _ in 0..text[..text_end].chars().count() + 1 {
-                    drop(chars.next())
-                }
+                let (mut cmd, args) = (cmd.to_string(), args.replace("\\}", "}"));
+                *chars = text[text_end + 1..].chars();
                 cmd.make_ascii_lowercase();
                 match cmd.as_str() {
                     "include" => {
@@ -68,7 +89,8 @@ fn process_file_helper(ctx: &mut Context, chars: &mut std::str::Chars) -> String
                     "get" => result += ctx.get(args.trim()),
                     "set" => {
                         let (name, value) = args.split_once(char::is_whitespace).unwrap();
-                        ctx.set(name.to_string(), value.to_string())
+                        let value = process_file_helper(ctx, &mut value.chars());
+                        ctx.set(name.to_string(), value)
                     }
                     "blockset" => {
                         let content = process_file_helper(ctx, chars);
@@ -79,12 +101,12 @@ fn process_file_helper(ctx: &mut Context, chars: &mut std::str::Chars) -> String
                     }
                     _ => panic!("unknown command"),
                 }
+                if is_nolb && chars.as_str().starts_with('\n') {
+                    drop(chars.next().unwrap())
+                }
             }
         } else if is_escape {
             result += "{%";
-            chars.next().unwrap();
-            chars.next().unwrap();
-            chars.next().unwrap();
         } else if let Some(c) = chars.next() {
             result.push(c)
         } else {
@@ -94,21 +116,21 @@ fn process_file_helper(ctx: &mut Context, chars: &mut std::str::Chars) -> String
     result
 }
 
-fn process_dir<P1: AsRef<Path>, P2: AsRef<Path>>(ctx: &mut Context, src: P1, dst: P2) {
+fn process_dir<P1: AsRef<Path>, P2: AsRef<Path>>(src: P1, dst: P2) {
     for entry in std::fs::read_dir(src).unwrap().flatten() {
         if entry.file_type().ok().filter(|t| t.is_dir()).is_some() {
             let name = entry.path();
             let mut new_dst = dst.as_ref().to_owned();
             new_dst.push(name.file_name().unwrap());
-            process_dir(ctx, name, new_dst);
+            process_dir(name, new_dst);
         } else if entry.file_type().ok().filter(|t| t.is_file()).is_some() {
             let mut dst_file = dst.as_ref().to_owned();
             dst_file.push(entry.path().file_name().unwrap());
-            process_file(ctx, entry.path(), dst_file);
+            process_file(&mut Context::new(), entry.path(), dst_file);
         }
     }
 }
 
 fn main() {
-    process_dir(&mut Context::new(), "res/", "docs/")
+    process_dir("res/", "docs/")
 }

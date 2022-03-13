@@ -1,18 +1,18 @@
-{% blockset body }
+{%!blockset body}
     <div class='global-card-container'>
         <div class='global-card'>
             <div class='navbar'>
-                <a href='https://github.com/natrixaeria' class='navbar-item'>
+                <a href='{%get profile-url}' class='navbar-item'>
                     <div class='display-flex'>
                         <img src='images/github-mark.png'>
                         <span class='navbar-item-text'>Github Profile</span>
                     </div>
                 </a>
-                <a href='/' class='navbar-item'>
+                <a href='{%get url}' class='navbar-item'>
                     <div class='navbar-item-text'>About Me</div>
                 </a>
             </div>
-            <a href='/' class='page-title'>
+            <a href='{%get url}' class='page-title'>
                 Natri<span class='title-rotating-x'>x</span>Hub
                 <span class='blink-line-container'><span class='blink-line'></span></span>
             </a>
@@ -22,10 +22,10 @@
         <div class='global-card'>
             <hr class='line-separator' style='margin-bottom: 1cm'>
             <div class='content-card-container'>
-                <div class='content-card'>
-                    {% get content }
+                <div class='content-card'>{%!get content}
                 </div>
             </div>
         </div>
     </div>
-{% end }{% include include/base.html }
+{%!end}
+{%!include include/base.html}
