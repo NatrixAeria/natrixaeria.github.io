@@ -1,0 +1,7 @@
+{% extends "main.html" %}
+
+{% block content %}
+    {% for page in section.pages %}
+        <div class='markdown'>{{ page.content | safe }}</div>
+    {% endfor %}
+{% endblock content %}

@@ -1,29 +1,12 @@
-* { /* Global CSS Variables
-     * ==================== */
+* {
     --background-color-1: #261b61;
     --background-color-2: #522b71;
-    --primary-color: {% get theme-color };
+    --primary-color: #f0f3ff;
     --secondary-color: #c8f3d7;
 
     --title-font-size: 1.4cm;
     --h2-font-size: 1cm;
     --p-font-size: 0.6cm;
-}
-
-@font-face {
-  font-family: "CustomZillaSlab";
-  src: url('{%get url}/fonts/ZillaSlab-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: block;
-}
-
-@font-face {
-  font-family: "CustomZillaSlab";
-  src: url('{%get url}/fonts/ZillaSlab-Bold.ttf') format('truetype');
-  font-weight: bold;
-  font-style: normal;
-  font-display: block;
 }
 
 @keyframes blink {
@@ -42,24 +25,11 @@ body {
     background: linear-gradient(45deg, var(--background-color-1), var(--background-color-2));
     background-attachment: fixed;
     color: var(--primary-color);
-    font-family: "CustomZillaSlab", serif;
-}
-
-h2 {
-    font-weight: normal;
-    font-size: var(--h2-font-size);
+    font-family: "Zilla Slab", serif;
 }
 
 a {
     text-decoration: none;
-}
-
-b {
-    color: var(--secondary-color);
-}
-
-p {
-    font-size: var(--p-font-size);
 }
 
 .display-flex {
@@ -73,7 +43,7 @@ p {
 }
 
 .global-card {
-    min-width: calc(0.8 * 100vw);
+    width: calc(0.8 * 100vw);
 }
 
 .page-title {
@@ -157,5 +127,22 @@ p {
 }
 
 .content-card {
-    min-width: 12cm;
+    min-width: 5cm;
+}
+
+.markdown strong {
+    color: var(--secondary-color);
+}
+
+.markdown h2 {
+    font-weight: normal;
+    font-size: var(--h2-font-size);
+}
+
+.markdown p {
+    font-size: var(--p-font-size);
+}
+
+.markdown a {
+    text-decoration: underline solid var(--secondary-color) .08cm;
 }
