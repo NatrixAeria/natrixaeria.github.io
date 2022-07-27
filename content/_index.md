@@ -1,5 +1,6 @@
 +++
 title = "About Me :)"
+template = "index.html"
 page_template = "index.html"
 +++
 
