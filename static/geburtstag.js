@@ -9,9 +9,11 @@ for (let e of document.getElementsByClassName('instant-show')) e.style.display =
 
 const anmelden_p = document.getElementById('anmelden-p');
 
-const PGAME_MULT = 0.02;
+const PGAME_MULT = .68;
+const PROGRESS_BAR_CLICK_COUNT = 24;
 
 const TIME_START = Date.now();
+
 const ACHIVEMENTS = {
     'speedrunner': {
         'name': 'Speedrunner',
@@ -35,7 +37,8 @@ let step = 'intro';
 let gehtDichNixAnCounter = 0;
 let progressBarPassed = false, kitpchaPassed = false;
 let anmeldenTransform = [0, 0], anmeldenPinned = false;
-let dragStart = null, dragCoords = [0, 0];
+let dragCoords = [0, 0];
+let progressBarClickCount = 0;
 
 let kitpchaSelection = 0;
 let kitpchaIndex = 0;
@@ -91,6 +94,7 @@ function submitPressed() {
                     c.style.fontWeight = 'bolder';
                     c.classList.add('instant-remove');
                     e.parentElement.insertAdjacentElement('beforeend', c);
+                    setAchivement('privacy-protector');
                 }
                 break;
             }
@@ -104,11 +108,18 @@ function submitPressed() {
             progressBarGame(PGAME_MULT);
             break;
         case 'progress-bar':
-            if (!progressBarPassed) break;
+            if (!progressBarPassed) {
+                if (progressBarClickCount++ > PROGRESS_BAR_CLICK_COUNT) {
+                    setAchivement('ungeduldig');
+                    progressBarPassed = true;
+                } else break;
+            }
             enableStep('programmiersprache');
             document.getElementById('programmiersprache').addEventListener('input', programmierspracheChanged);
             break;
         case 'programmiersprache':
+            if (document.getElementById('programmiersprache').value === 'rust')
+                setAchivement('rustacean');
             enableStep('lila-pause');
             document.getElementById('lila-pause').addEventListener('input', lilaPauseChanged);
             break;
@@ -170,10 +181,21 @@ function fleeMouseMove(button, ev) {
     }
 }
 function pinDown(ev) {
-    dragStart = [ev.clientX, ev.clientY];
+    ev.dataTransfer.dropEffect = 'move';
+    ev.dataTransfer.clearData();
+    ev.dataTransfer.setData('application/json', JSON.stringify([ev.clientX, ev.clientY]));
 }
 function pinUp(ev) {
-    if (dragStart === null) return;
+    let dragStart;
+    try {
+        dragStart = JSON.parse(ev.dataTransfer.getData('application/json'));
+    } catch (err) {
+        if (!(err instanceof SyntaxError)) throw err;
+    }
+    if (!(dragStart instanceof Array)
+        || dragStart.length !== 2
+        || isNaN(dragStart[0])
+        || isNaN(dragStart[1])) return;
     const [x, y] = [ev.clientX - dragStart[0], ev.clientY - dragStart[1]];
     dragCoords[0] += x;
     dragCoords[1] += y;
@@ -281,8 +303,10 @@ function progressBarGame(multiplier=1) {
                     bar.children[0].style.marginLeft = '0';
                     bar.children[1].style.display = 'inherit';
                     setProgress(bar, 1.0, '100%... Fertig!');
-                    progressBarPassed = true;
-                    submitPressed();
+                    if (!progressBarPassed) {
+                        progressBarPassed = true;
+                        submitPressed();
+                    }
                 }, 100.0);
             }, 4000.0);
             clearInterval(id);
@@ -334,6 +358,15 @@ class PdfRgb { constructor(r, g, b, mode) { [this.rgb, this.mode] = [[r, g, b], 
 class PdfGrey { constructor(g, mode) { [this.g, this.mode] = [g, mode]; } }
 class PdfRect { constructor(x, y, w, h) { [this.x, this.y, this.w, this.h] = [x, y, w, h]; } }
 class PdfFill { constructor() {} }
+class PdfMove { constructor(x, y) { this.pos = [x, y]; } }
+class PdfLineTo { constructor(x, y) { this.pos = [x, y]; } }
+class PdfStroke { constructor() { } }
+class PdfSaveGS { constructor() {} }
+class PdfLoadGS { constructor() {} }
+class PdfLineWidth { constructor(n) { this.n = n; } }
+class PdfLineJoinStyle { constructor(n) { this.n = n; } }
+class PdfPaintShading { constructor(name) { this.name = name; } }
+class PdfTranslate { constructor(x, y) { this.pos = [x, y]; } }
 class PdfTextLead { constructor(n) { this.n = n; } }
 class PdfCSpace { constructor(n) { this.n = n; } }
 class PdfHScale { constructor(n) { this.n = n; } }
@@ -353,7 +386,6 @@ function convertToCp1252(s) {
 }
 
 function getFullName() {
-    return 'abc';
     const [spitzname, name, vorname] = ['.step-intro input', 'p input[placeholder="Name"]', 'p input[placeholder="Vorname"]']
         .map(q => document.querySelector(q).value.trim());
     return vorname + ' "' + spitzname + '" ' + name;
@@ -361,6 +393,7 @@ function getFullName() {
 
 function getFullTime() {
     let delta = Date.now() - TIME_START;
+    if (delta < 60000) setAchivement('speedrunner');
     const millis = delta % 1000;
     delta = Math.floor(delta / 1000);
     const secs = delta % 60;
@@ -392,6 +425,24 @@ function generatePdfStream(cmds) {
             res.push(enc.encode([obj.x, obj.y, obj.w, obj.h].join(' ') + ' re'));
         } else if (obj instanceof PdfFill) {
             res.push(enc.encode('f'));
+        } else if (obj instanceof PdfMove) {
+            res.push(enc.encode(obj.pos[0] + ' ' + obj.pos[1] + ' m'));
+        } else if (obj instanceof PdfLineTo) {
+            res.push(enc.encode(obj.pos[0] + ' ' + obj.pos[1] + ' l'));
+        } else if (obj instanceof PdfStroke) {
+            res.push(enc.encode('S'));
+        } else if (obj instanceof PdfSaveGS) {
+            res.push(enc.encode('q'));
+        } else if (obj instanceof PdfLoadGS) {
+            res.push(enc.encode('Q'));
+        } else if (obj instanceof PdfLineWidth) {
+            res.push(enc.encode(obj.n + ' w'));
+        } else if (obj instanceof PdfLineJoinStyle) {
+            res.push(enc.encode(obj.n + ' j'));
+        } else if (obj instanceof PdfPaintShading) {
+            res.push(enc.encode('/' + obj.name + ' sh'));
+        } else if (obj instanceof PdfTranslate) {
+            res.push(enc.encode('1 0 0 1 ' + obj.pos[0] + ' ' + obj.pos[1] + ' cm'));
         } else if (obj instanceof PdfTextLead) {
             res.push(enc.encode(obj.n + ' TL'));
         } else if (obj instanceof PdfCSpace) {
@@ -417,6 +468,7 @@ function getPdfObjById(table, id) {
 
 function generatePdfElement(obj, table) {
     if (typeof obj === 'number') return enc.encode(obj + '');
+    if (typeof obj === 'boolean') return enc.encode(obj ? 'true' : 'false');
     if (typeof obj === 'string') return enc.encode(obj);
     if (obj instanceof PdfRef) {
         const id = getPdfObjById(table, obj.n);
@@ -479,8 +531,42 @@ function generatePdfFromTable(table) {
 
 const B64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 
+function showAchivement(a) {
+    document.getElementById('achivement-name').textContent = a.name;
+    let e = document.getElementById('achivement-popup');
+    e.style.display = '';
+    window.requestAnimationFrame(() => window.requestAnimationFrame(() => {
+        e.style.opacity = 1;
+        window.setTimeout(() => {
+            e.style.opacity = 0;
+            window.setTimeout(() => {
+                e.style.display = 'none';
+            }, 500);
+        }, 3000);
+    }));
+}
+
+function setAchivement(id) {
+    if (isAchievement(id)) return;
+    const a = ACHIVEMENTS[id];
+    showAchivement(a);
+    let list = getAchievementList();
+    list.push(id);
+    localStorage.setItem('achivements', list);
+}
+
+function getAchievementList() {
+    const as = localStorage.getItem('achivements');
+    if (as !== null) return as.split(',');
+    else return [];
+}
+
+function resetAchivements() {
+    localStorage.removeItem('achivements');
+}
+
 function isAchievement(id) {
-    return id === 'ungeduldig' || id === 'rustacean';
+    return getAchievementList().includes(id);
 }
 
 function getAchievements() {
@@ -489,21 +575,38 @@ function getAchievements() {
     cmds.push(new PdfRgb(0x26, 0x2a, 0x30, 'fill'));
     let cds = ({});
     for (const a of Object.keys(ACHIVEMENTS)) {
-        //new PdfTextLead(65), new PdfHScale(.45), new PdfCSpace(3), new PdfGrey(90, 'fill'),
-        //new PdfText('BESCHÄFTIGUNGS-TEST\nFÜR PROKRASTINATOREN', 'F1', 60, [130, 632]),
         cds[a] = [n&1?120:330, 300 - (n++ >> 1) * 80];
         cmds.push(new PdfRect(cds[a][0], cds[a][1], 200, 68));
         cmds.push(new PdfFill());
+    }
+    for (const a of Object.keys(ACHIVEMENTS)) {
+        if (!isAchievement(a)) continue;
+        cmds.push(new PdfSaveGS());
+        cmds.push(new PdfTranslate(cds[a][0] + 34, cds[a][1] + 32));
+        cmds.push(new PdfPaintShading('S1'));
+        cmds.push(new PdfLoadGS());
     }
     cmds.push(new PdfGrey(0, 'fill'));
     for (const a of Object.keys(ACHIVEMENTS)) {
         cmds.push(new PdfRect(cds[a][0] + 16, cds[a][1] + 14, 36, 36));
         cmds.push(new PdfFill());
     }
+    cmds.push(new PdfGrey(255, 'stroke'));
+    cmds.push(new PdfGrey(255, 'fill'));
+    cmds.push(new PdfLineWidth(3));
+    for (const a of Object.keys(ACHIVEMENTS)) {
+        if (isAchievement(a)) {
+            cmds.push(new PdfMove(cds[a][0] + 23,   cds[a][1] + 30));
+            cmds.push(new PdfLineTo(cds[a][0] + 31, cds[a][1] + 22));
+            cmds.push(new PdfLineTo(cds[a][0] + 44, cds[a][1] + 42));
+            cmds.push(new PdfStroke());
+        } else {
+            cmds.push(new PdfText('?', 'F2', 28, [cds[a][0] + 27, cds[a][1] + 22]));
+        }
+    }
     cmds.push(new PdfTextLead(10));
     cmds.push(new PdfHScale(.86));
     cmds.push(new PdfCSpace(0));
-    cmds.push(new PdfGrey(255, 'fill'));
     for (const a of Object.keys(ACHIVEMENTS)) {
         cmds.push(new PdfText(ACHIVEMENTS[a].name, 'F1', 9, [cds[a][0] + 56, cds[a][1] + 41]));
     }
@@ -571,6 +674,7 @@ function generatePdf() {
                 'F1': Ref('font-helvetica'),
                 'F2': Ref('font-header'),
             },
+            'Shading': { 'S1': Ref('radial-shading') }
         },
         {
             'Id': 'font-helvetica/Font',
@@ -583,6 +687,32 @@ function generatePdf() {
             'Subtype': '/Type1',
             'BaseFont': '/Helvetica-Bold',
             'Encoding': '/WinAnsiEncoding'
+        },
+        // Function type 4 seems not to be widely supported
+        /*{
+            'Id': 'radial-fun/Stream',
+            'FunctionType': 4,
+            'Domain': [0, 1],
+            'Range': [0, 1, 0, 1, 0, 1],
+            'Raw': enc.encode('{ sin 1.2 mul 1.5 exp dup 1 gt { pop 1 } if dup -.531 mul .68 add exch dup -.3453 mul .51 add exch -.0718 mul .26 add }'),
+        },*/
+        {
+            'Id': 'radial-fun/Stream',
+            'FunctionType': 0,
+            'Domain': [0, 1],
+            'Range': [0, 1, 0, 1, 0, 1],
+            'Size': [2],
+            'BitsPerSample': 8,
+            'Decode': [0, 1, 0, 1, 0, 1],
+            'Raw': Uint8Array.of(0xad, 0x82, 0x42, 0x26, 0x2a, 0x30),
+        },
+        {
+            'Id': 'radial-shading/',
+            'ShadingType': 3,
+            'Coords': [0, 0, 0, 0, 0, 31],
+            'ColorSpace': '/DeviceRGB',
+            'Extend': [false, false],
+            'Function': Ref('radial-fun'),
         },
         {
             'Id': 'cs-hello-world/Stream',
@@ -644,7 +774,9 @@ for (let e of document.getElementsByClassName('pin')) {
     e.addEventListener('dragend', pinUp);
 }
 
+/*
 kitpchaPassed = true;
 anmeldenPinned = true;
 step = 'flee';
 submitPressed();
+*/

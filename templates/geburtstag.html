@@ -4,6 +4,10 @@
     <div class='markdown'>
         {{ page.content | safe }}
         <p class='instant-remove'>Ohne <strong>javascript</strong> wird das aber leider nix</p>
+        <div id='achivement-popup' style='display: none'><div>
+            Achivement Unlocked!
+            <div id='achivement-name'>?</div>
+        </div></div>
         <form {{ "action='javascript:submitPressed()'" | safe }} class='instant-show' style='display:none'>
             <div class='step-intro'>
                 <p>
