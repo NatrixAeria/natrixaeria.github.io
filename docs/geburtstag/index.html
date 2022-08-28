@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang='tlh-Piqd'>
+    <head>
+        <title>NatrixHub</title>
+        <meta charset='utf-8'/>
+
+        <meta name='author' content='nat-rix'>
+        <meta name='generator' content='zola'>
+        <meta name='keywords' content='playground,github pages'>
+        <meta name='referrer' content='no-referrer'>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="/fonts.css">
+        <link rel="stylesheet" href="/style.css">
+    </head>
+
+    <body>
+    <div id='global-bg'></div>
+    <div class='global-card-container'>
+        <div class='global-card'>
+            <div class='navbar'>
+                <a href='https:&#x2F;&#x2F;github.com&#x2F;nat-rix' class='navbar-item'>
+                    <div class='display-flex'>
+                        <img src='images/github-mark.png'>
+                        <span class='navbar-item-text'>Github Profile</span>
+                    </div>
+                </a>
+                <a href='/' class='navbar-item'>
+                    <div class='navbar-item-text'>About Me</div>
+                </a>
+            </div>
+            <a href='/' class='page-title'>
+                Natri<span class='title-rotating-x'>x</span>Hub
+                <span class='blink-line-container'><span class='blink-line'></span></span>
+            </a>
+        </div>
+    </div>
+    <div class='global-card-container main-content'>
+        <div class='global-card'>
+            <hr class='line-separator' style='margin-bottom: 1cm'>
+            <div class='content-card-container'>
+                <div class='content-card'>
+    <div class='markdown'>
+        <h2 id="hi-hier-kannst-du-dich-fur-meinen-geburtstag-anmelden">Hi, hier kannst du dich für meinen Geburtstag anmelden <div class='pin' draggable='true'></div></h2>
+
+        <p class='instant-remove'>Ohne <strong>javascript</strong> wird das aber leider nix</p>
+        <div id='achivement-popup' style='display: none'><div>
+            Achivement Unlocked!
+            <div id='achivement-name'>?</div>
+        </div></div>
+        <form action='javascript:submitPressed()' class='instant-show' style='display:none'>
+            <div class='step-intro'>
+                <p>
+                    <input class='text-input' placeholder='Dein Spitzname' required><sup>*</sup>
+                </p>
+                <input type='checkbox' id='datenschutz' required>
+                <label for='datenschutz'>
+                    <sup>*</sup>
+                    Ich habe die <a href='/datenschutz'>Datenschutzbestimmung</a>
+                    gelesen und bin einverstanden.
+                </label>
+            </div>
+            <template id='step-erinner-checkbox'>
+                <div>
+                    <input type='checkbox' id='abonement' required>
+                    <label for='abonement'>
+                        <sup>*</sup>
+                        Und ich möchte gerne regelmäßig an den Termin erinnert werden.
+                    </label>
+                </div>
+            </template>
+            <template id='step-noch-ein-paar-daten'>
+                <div>
+                    <h3>Nur noch ein paar Daten, die ich für die Spiele benötige, und dann sind wir fertig</h3>
+                    Geschlecht:
+                    <select id='geschlecht' required>
+                        <option disabled selected>Wähle dein Geschlecht</option>
+                        <option value='f'>Weiblich</option>
+                        <option value='m'>Männlich</option>
+                        <option value='nb'>Nicht binär</option>
+                        <option value='?'>Geht dich nix an</option>
+                    </select>
+                    <sup>*</sup>
+                </div>
+            </template>
+            <template id='step-wie-viele-semester'>
+                <div>
+                    Semester, die du noch brauchst, um deinen angepeilten Abschluss zu erhalten
+                    <select id='semester' required>
+                        <option disabled selected>Wähle einen Schätzwert</option>
+                        <option value='null'>0</option>
+                        <option value='nix'>Ich peile gar keinen Abschluss an und bin jetzt beleidigt!</option>
+                        <option value='mehr'>Mehr</option>
+                        <option value='ja'>Ja</option>
+                    </select>
+                    <sup>*</sup>
+                </div>
+            </template>
+            <template id='step-progress-bar'>
+                <div>
+                    <div id='geburtstag-progress-bar' class='windows-progress-bar-container windows-progress-bar-shape'>
+                        <div class='windows-progress-bar-base windows-progress-bar-shape'></div>
+                        <div class='windows-progress-bar-shimmer windows-progress-bar-shape'></div>
+                        <div class='windows-progress-bar-glass-panel windows-progress-bar-shape'></div>
+                    </div>
+                    <div class='geburtstag-progress-bar-text'>Lade Daten hoch...</div>
+                </div>
+            </template>
+            <template id='step-programmiersprache'>
+                <div>
+                    <h3>Lass uns nur noch ein paar Dinge über deine Persönlichkeit herausfinden</h3>
+                    Deine Lieblingsprogrammiersprache
+                    <select id='programmiersprache' required>
+                        <option disabled selected>Wähle eine Programmiersprache aus</option>
+                        <option value='rust'>Rust</option>
+                        <option value='muell'>Müll</option>
+                    </select>
+                </div>
+            </template>
+            <template id='step-lila-pause'>
+                <div>
+                    Bist du schon blau?
+                    <select id='lila-pause' required>
+                        <option disabled selected>Wähle weise</option>
+                        <option value='saufen'>Saufen!</option>
+                        <option value='ja'>Ja</option>
+                        <option value='nein'>Nein</option>
+                        <option value='vielleicht'>Vielleicht</option>
+                        <option value='aegypten'>Ägypten?</option>
+                    </select>
+                </div>
+            </template>
+            <template id='step-kitpcha'>
+                <div>
+                    <h3>Fast fertig!</h3>
+                    <div class='kitpcha-border kitpcha-box'>
+                        <div class='kitpcha-left'>
+                            <div class='kitpcha-checkbox-placeholder'>
+                                <div class='kitpcha-border kitpcha-checkbox'></div>
+                                <div class='kitpcha-circle'></div>
+                            </div>
+                            <div class='kitpcha-no-robot'>Ich bin echte Elite</div>
+                        </div>
+                        <div class='kitpcha-right'>
+                            <div class='kitpcha-right-image'></div>
+                            <div class='kitpcha-right-title'>kitPTCHA</div>
+                            <div class='kitpcha-right-subtitle'>Exzellenz - Forschung</div>
+                        </div>
+                    </div>
+                    <div class='kitpcha-q'>
+                        <div class='kitpcha-q-top'>
+                            <div class='kitpcha-q-query'>
+                                <span></span>
+                                <span>Drücke erst auf weiter, wenn du alle gefunden hast</span>
+                            </div>
+                            <div class='kitpcha-q-matrix'>
+                                <div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div>
+                                <div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div>
+                                <div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div>
+                                <div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div>
+                            </div>
+                        </div>
+                        <div class='kitpcha-q-retry'>Bitte versuche es noch einmal</div>
+                        <div class='kitpcha-q-hr'></div>
+                        <div class='kitpcha-q-bottom'>
+                            <div class='kitpcha-q-buttons'></div>
+                            <div class='kitpcha-q-submit'>Weiter</div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <template id='step-name-vorname-1'>
+                <p>
+                    <input class='text-input' placeholder='Name' required><sup>*</sup>
+                </p>
+            </template>
+            <template id='step-name-vorname-2'>
+                <p>
+                    <input class='text-input' placeholder='Vorname' required><sup>*</sup>
+                </p>
+            </template>
+            <template id='step-flee'>
+                <input type='checkbox' id='no-robot' required>
+                <label for='no-robot'>
+                    <sup>*</sup>
+                    Ich schwöre, ich bin kein Roboter, wirklich!
+                </label>
+            </template>
+            <template id='step-download'>
+                <h3>Fertig!</h3>
+                Nun kannst du dein Zertifikat als PDF downloaden!
+                <a id='download-file' class='zertifikat-download' target="_blank">Download</a>
+                <span class='sidenote'>Es kann sein, dass dein Browser dem Link nicht folgt, wenn du ihn betätigst. Rechtsklicke in dem Fall den Download-Knopf und kopiere den Link und füge ihn in einem neuen Tab ein.<span>
+            </template>
+            <p id='anmelden-p'><input type='submit' value='Anmelden' id='anmelden-button'></p>
+        </form>
+    </div>
+    <script src='geburtstag.js'/>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
