@@ -27,9 +27,9 @@
                 </a>
                 <a href='/nds' class='navbar-item'>
                     
-                    
+                    <strong>
                     <div class='navbar-item-text'>NDS Wiki</div>
-                    
+                    </strong>
                 </a>
                 <a href='/' class='navbar-item'>
                     
@@ -49,44 +49,27 @@
             <hr class='line-separator' style='margin-bottom: 1cm'>
             <div class='content-card-container'>
                 <div class='content-card'>
-    <h1 class='404-title'>404 - Page not found</h1>
-    <style>body { overflow: hidden; }</style>
-    <script>
-for (let i of document.getElementsByClassName('instantRemove'))
-    i.remove();
-const elem = document.getElementsByClassName('404-title')[0];
-let counter = 0;
-function place() {
-    let child = elem.cloneNode(true);
-    child.style.position = 'absolute';
-    child.style.left = (Math.random() * 100.0 - 10.0) + 'vw';
-    child.style.top = (Math.random() * 100.0 - 10.0) + 'vh';
-    child.style.transform = 'rotate(' + (Math.random() * 360.0) + 'deg)';
-    child.style.fontSize = (Math.random() * 1.8 + 0.15) + 'cm';
-    elem.parentNode.appendChild(child);
-    delayedPlace();
-}
-function delayedPlace() {
-    if (counter++ > 120) return;
-    window.setTimeout(place, Math.random() * 600.0 + 100.0);
-}
-function banner() {
-    let child = document.createElement('p');
-    let style = child.style;
-    style.position = 'absolute';
-    style.left = '20vw';
-    style.top = '5vh';
-    style.color = 'red';
-    style.zIndex = 1000;
-    style.textShadow = '0 0 1.8cm black';
-    style.fontSize = '8vw';
-    style.fontWeight = 'bolder';
-    child.textContent = 'This mess would not have happend if you disabled javascript';
-    elem.parentNode.appendChild(child);
-}
-delayedPlace();
-window.setTimeout(banner, 3000.0)
-    </script>
+    <div class='markdown'><h1 id="helpful-links">Helpful links</h1>
+<p>This is a list of hopefully helpful links and resources providing you with some
+information about the internals of the Nintendo DS</p>
+<h2 id="official-spcifications">Official spcifications</h2>
+<ul>
+<li><a rel="noopener noreferrer" target="_blank" href="https://developer.arm.com/documentation/ddi0210/c/?lang=en">ARM’s official NDS7 processor specification</a></li>
+<li><a rel="noopener noreferrer" target="_blank" href="https://developer.arm.com/documentation/ddi0165/b?lang=en">ARM’s official NDS9 processor specification (ARM9E-S)</a></li>
+<li><a rel="noopener noreferrer" target="_blank" href="https://developer.arm.com/documentation/ddi0100/i/?lang=en">ARM’s official NDS9 processor specification (ARMv5)</a></li>
+<li><a rel="noopener noreferrer" target="_blank" href="https://archive.org/details/NitroDevDocs/">Nintendo’s official DS developement book</a></li>
+</ul>
+<h2 id="inofficial-material">Inofficial material</h2>
+<ul>
+<li><a rel="noopener noreferrer" target="_blank" href="https://problemkaputt.de/gbatek.htm">GBATEK</a> - most extensive resource about the DS (and also GBA and DSi) you can find in the internet</li>
+<li><a rel="noopener noreferrer" target="_blank" href="https://www.copetti.org/writings/consoles/nintendo-ds/">Copetti’s Nintendo DS Architecture - A Practical Analysis</a> - Gives a summary of the Nintendo DS architecture</li>
+</ul>
+<h2 id="related-repositories">Related repositories</h2>
+<ul>
+<li><a rel="noopener noreferrer" target="_blank" href="https://github.com/melonDS-emu/melonDS">melonDS</a> - Modern DS Emulator written in C++</li>
+<li><a rel="noopener noreferrer" target="_blank" href="https://github.com/TASEmulators/desmume">DeSmuME</a> - Very popular DS Emulator written in C++</li>
+</ul>
+</div>
 </div>
             </div>
         </div>

@@ -139,6 +139,7 @@ a {
     width: 100%;
     display: flex;
     justify-content: space-around;
+    margin-bottom: 2cm;
 }
 
 .main-content .text-input {
@@ -180,18 +181,48 @@ a {
     color: var(--secondary-color);
 }
 
+.markdown h1 {
+    font-weight: bold;
+    font-size: var(--title-font-size);
+    margin-left: 0;
+    margin-top: 1cm;
+    margin-bottom: 1cm;
+}
+
 .markdown h2 {
     font-weight: normal;
     font-size: var(--h2-font-size);
+    margin-left: .3cm;
+    margin-top: .6cm;
+    margin-bottom: .6cm;
 }
 
-.markdown p {
+.markdown p, .markdown ul, .markdown ol, .markdown table {
     font-size: var(--p-font-size);
+    margin-left: 1cm;
+    margin-top: .4cm;
+    margin-bottom: .4cm;
+}
+
+.markdown table {
+    border: .2cm var(--primary-color) solid;
+    border-collapse: collapse;
+    margin-top: 1cm;
+    margin-bottom: 1cm;
+}
+
+.markdown td, .markdown th {
+    border: .1cm var(--primary-color) solid;
+    padding: .4cm;
 }
 
 .markdown a {
     color: var(--secondary-color);
     text-decoration: underline solid var(--secondary-color) .08cm;
+}
+
+.markdown ul > li {
+    list-style-type: "➥  ";
 }
 
 .markdown select {
@@ -604,3 +635,8 @@ a {
 }
 
 #no-robot { margin: .8cm 0; }
+
+.navbar strong {
+    border-bottom: var(--secondary-color) .12cm solid;
+    display: inline;
+}
