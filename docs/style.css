@@ -1,8 +1,10 @@
 * {
     --background-color-1: #261b61;
     --background-color-2: #522b71;
+    --background-color-3: #241c34;
     --primary-color: #f0f3ff;
     --secondary-color: #c8f3d7;
+    --tertiary-color: moccasin;
 
     --title-font-size: 1.4cm;
     --h2-font-size: 1cm;
@@ -197,7 +199,7 @@ a {
     margin-bottom: .6cm;
 }
 
-.markdown p, .markdown ul, .markdown ol, .markdown table {
+.markdown p, .markdown ul, .markdown ol, .markdown table, .markdown pre {
     font-size: var(--p-font-size);
     margin-left: 1cm;
     margin-top: .4cm;
@@ -223,6 +225,30 @@ a {
 
 .markdown ul > li {
     list-style-type: "➥  ";
+}
+
+.markdown pre {
+  background: var(--background-color-3);
+  padding: .5cm;
+  border-radius: .2cm;
+  color: var(--tertiary-color);
+  font-family: "Courier New", monospace;
+  font-size: calc(var(--p-font-size) * .8);
+  min-width: min-content;
+  line-height: 1;
+}
+
+.markdown p > code {
+    background: var(--background-color-3);
+    color: var(--tertiary-color);
+    padding: .1cm .3cm;
+    border-radius: .2cm;
+    font-size: calc(var(--p-font-size) * .9);
+}
+
+.markdown img {
+    height: 16cm;
+    width: 100%;
 }
 
 .markdown select {

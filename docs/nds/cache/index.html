@@ -52,13 +52,37 @@
     <div class='markdown'><h1 id="processor-caches">Processor Caches</h1>
 <p>Caching is only supported on the <a href="/nds/nds9">NDS9</a> processor.
 The Nintendo DS supports two seperate caches (Harvard architecture),
-the unified cache feature (von Neumann) is not supported.</p>
+the unified cache feature (von Neumann) is not supported. However, they
+can be enabled and disabled each.</p>
 <table><thead><tr><th></th><th>Instruction Cache</th><th>Data Cache</th></tr></thead><tbody>
 <tr><td>Capacity</td><td>8 KiB</td><td>4 KiB</td></tr>
 <tr><td>Configuration</td><td><a rel="noopener noreferrer" target="_blank" href="https://en.wikipedia.org/wiki/Cache_placement_policies#Set-associative_cache">4-way set associative</a></td><td><a rel="noopener noreferrer" target="_blank" href="https://en.wikipedia.org/wiki/Cache_placement_policies#Set-associative_cache">4-way set associative</a></td></tr>
 <tr><td>Cache Line Size</td><td>8 Words / 32 Bytes</td><td>8 Words / 32 Bytes</td></tr>
 <tr><td>Operations</td><td>Read</td><td>Read / Write</td></tr>
 </tbody></table>
+<p>Here are some variables defined by the <a href="/nds/links">ARM Architecture Reference Manual</a></p>
+<table><thead><tr><th></th><th>Instruction Cache</th><th>Data Cache</th></tr></thead><tbody>
+<tr><td>LINELEN</td><td>32</td><td>32</td></tr>
+<tr><td>NSETS</td><td>64</td><td>32</td></tr>
+<tr><td>ASSOCIATIVITY = NWAYS</td><td>4</td><td>4</td></tr>
+</tbody></table>
+<p style='text-align: center'>
+<img src='&#x2F;images&#x2F;nds-cache.svg' alt='Data cache organisation' style='filter:invert(100%);' />
+
+Fig 1. Data cache organisation
+</p>
+<h2 id="lockdown-functionality">Lockdown functionality</h2>
+<p>Both the instruction cache and the data cache support the lockdown functionality.
+It can be controlled by the following <a href="/nds/cp15">CP-15</a> registers</p>
+<p><code>Cn=9,Cm=0,Op2=0, Data Cache Lockdown Register</code>,
+<code>Cn=9,Cm=0,Op2=1, Instruction Cache Lockdown Register</code></p>
+<pre><code>╭ 3 ╷         2         ╷         1         ╷         0         ╮
+┌─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┬─┐
+│1│0│9│8│7│6│5│4│3│2│1│0│9│8│7│6│5│4│3│2│1│0│9│8│7│6│5│4│3│2│1│0│
+╞═╪═╪═╪═╪═╪═╪═╪═╪═╪═╪═╪═╪═╪═╪═╪═╪═╪═╪═╪═╪═╪═╪═╪═╪═╪═╪═╪═╪═╪═╪═╧═╡
+│L│-│-│-│-│-│-│-│-│-│-│-│-│-│-│-│-│-│-│-│-│-│-│-│-│-│-│-│-│-│WAY│
+└─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴───┘
+</code></pre>
 </div>
 </div>
             </div>
