@@ -6,9 +6,9 @@
     --secondary-color: #c8f3d7;
     --tertiary-color: moccasin;
 
-    --title-font-size: 1.4cm;
-    --h2-font-size: 1cm;
-    --p-font-size: 0.6cm;
+    --title-font-size: calc(min(1.4cm, max(3.5vw, 3.5vh)));
+    --h2-font-size: calc(var(--title-font-size) / 1.4);
+    --p-font-size: calc(var(--title-font-size) * 3 / 7);
 }
 
 @keyframes blink {

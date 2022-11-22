@@ -12,7 +12,8 @@
     <div id='global-background'>
     </div>
 
-        <div class='jam-titlebar'>
+    <div class='page-content'>
+        <header class='jam-titlebar'>
             <div class='jam-headline'>
                 Willkommen zum
                 <span style='color: #a600a6'>L</span><span style='color: #b73cf4'>i</span><span style='color: #c154ff'>l</span><span style='color: #a600ff'>a</span>-Pause
@@ -23,7 +24,8 @@
                 <span class='jam-x-tag-x'>x</span>
                 <a href='https://ludumdare.com'><img class='jam-x-tag-ld' src='https://ludumdare.com/ldlogo.svg'></a>
             </div>
-        </div>
+        </header>
 
-        <div class='markdown lpjam-markdown'>{{section.content | safe}}</div>
+        <main class='markdown lpjam-markdown'>{{section.content | safe}}</main>
+    </div>
 {% endblock base_content %}
