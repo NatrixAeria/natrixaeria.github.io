@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang='tlh-Piqd'>
     <head>
-        <title>{{ config.title }}</title>
+        <title>{%block title%}NatrixHub{%endblock title%}</title>
         <meta charset='utf-8'/>
 
         <meta name='author' content='nat-rix'>
@@ -12,8 +12,8 @@
 
         <link rel="stylesheet" href="/fonts.css">
         <link rel="stylesheet" href="/style.css">
-        {%- block additional_head%}{%endblock%}
+        {%- block additional_head%}{%endblock additional_head%}
     </head>
 
-    <body>{%block base_content%}{%endblock%}</body>
+    <body>{%block base_content%}{%endblock base_content%}</body>
 </html>
