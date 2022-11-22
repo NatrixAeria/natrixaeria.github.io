@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block additional_head %}
+    <link rel="stylesheet" href="/lpjam.css">
+{% endblock additional_head %}
+
+{% block base_content %}
+    <div id='global-background'>
+    </div>
+
+        <div class='jam-titlebar'>
+            <div class='jam-headline'>
+                Willkommen zum
+                <span style='color: #a600a6'>L</span><span style='color: #b73cf4'>i</span><span style='color: #c154ff'>l</span><span style='color: #a600ff'>a</span>-Pause
+                Game Jam Event!
+            </div>
+            <div class='jam-x-tag'>
+                <a href='https://kuhlt.de'><img class='jam-x-tag-lp' src='https://kuhlt.de/res/images/lilapauselogo-weiss.svg'></a>
+                <span class='jam-x-tag-x'>x</span>
+                <a href='https://ludumdare.com'><img class='jam-x-tag-ld' src='https://ludumdare.com/ldlogo.svg'></a>
+            </div>
+        </div>
+
+        <div class='markdown lpjam-markdown'>{{section.content | safe}}</div>
+{% endblock base_content %}
