@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang='tlh-Piqd'>
+    <head>
+        <title>NatrixHub</title>
+        <meta charset='utf-8'/>
+
+        <meta name='author' content='nat-rix'>
+        <meta name='generator' content='zola'>
+        <meta name='keywords' content='playground,github pages'>
+        <meta name='referrer' content='no-referrer'>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="/fonts.css">
+        <link rel="stylesheet" href="/style.css">
+    </head>
+
+    <body>
+    <div id='global-bg'></div>
+    <div class='global-card-container'>
+        <div class='global-card'>
+            <div class='navbar'>
+                <a href='https:&#x2F;&#x2F;github.com&#x2F;nat-rix' class='navbar-item'>
+                    <div class='display-flex'>
+                        <img src='/images/github-mark.png'>
+                        <span class='navbar-item-text'>Github Profile</span>
+                    </div>
+                </a>
+                <a href='/nds' class='navbar-item'>
+                    
+                    <strong>
+                    <div class='navbar-item-text'>NDS Wiki</div>
+                    </strong>
+                </a>
+                <a href='/' class='navbar-item'>
+                    
+                    <div
+                    class='navbar-item-text'>About Me
+                    </div>
+                </a>
+            </div>
+            <a href='/' class='page-title'>
+                Natri<span class='title-rotating-x'>x</span>Hub
+                <span class='blink-line-container'><span class='blink-line'></span></span>
+            </a>
+        </div>
+    </div>
+    <div class='global-card-container main-content'>
+        <div class='global-card'>
+            <hr class='line-separator' style='margin-bottom: 1cm'>
+            <div class='content-card-container'>
+                <div class='content-card'>
+    <div class='markdown'><h1 id="firmware">Firmware</h1>
+<p>The Nintendo DS firmware is a 256KiB (512KiB for <a rel="noopener noreferrer" target="_blank" href="https://en.wikipedia.org/wiki/IQue">iQue</a>)
+<a rel="noopener noreferrer" target="_blank" href="https://en.wikipedia.org/wiki/Flash_memory#Serial_flash">flash</a> memory, that
+is not memory mapped. You can access it via
+<a rel="noopener noreferrer" target="_blank" href="https://en.wikipedia.org/wiki/Serial_Peripheral_Interface">SPI-bus</a>.</p>
+<h2 id="memory-access">Memory Access</h2>
+<p>Memory access is only possible via <a href="/nds/nds7">NDS7</a> with the <code>SPICNT 0x40001c0</code>
+and the <code>SPIDATA 0x40001c2</code> registers.
+DMA probably isn’t really feasable for reading or writing, because DMA
+has no 8-bit mode (only 16 or 32) and SPI has no functional 16-bit mode.</p>
+<h3 id="bios-functions">BIOS functions</h3>
+<p>These are firmware related functions from the NDS7 BIOS, that I decompiled by hand
+(may be error prone):</p>
+<pre data-lang="c" style="background-color:#393939;color:#dedede;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#fed6af;">#define </span><span style="color:#fffd87;">REG16</span><span style="color:#e8bc92;">(n) (</span><span style="color:#ececec;">*</span><span style="color:#e8bc92;">((</span><span style="color:#fffb9d;">volatile uint16_t</span><span style="color:#ececec;">*</span><span style="color:#e8bc92;">) (n)))
+</span><span>
+</span><span style="color:#fed6af;">#define </span><span style="color:#e8bc92;">SPICNT REG16(</span><span style="font-weight:bold;color:#87d6d5;">0x40001c0</span><span style="color:#e8bc92;">)
+</span><span style="color:#a0cfa1;">//</span><span style="color:#87ae86;"> SPIDATA is 16bit, but only the lower 8 bit are used
+</span><span style="color:#fed6af;">#define </span><span style="color:#e8bc92;">SPIDATA REG16(</span><span style="font-weight:bold;color:#87d6d5;">0x40001c2</span><span style="color:#e8bc92;">)
+</span><span>
+</span><span style="color:#fed6af;">#define </span><span style="color:#e8bc92;">SPICNT_ENABLE </span><span style="font-weight:bold;color:#87d6d5;">0x8000
+</span><span style="color:#fed6af;">#define </span><span style="color:#e8bc92;">SPICNT_BUSY </span><span style="font-weight:bold;color:#87d6d5;">0x80
+</span><span>
+</span><span style="color:#a0cfa1;">//</span><span style="color:#87ae86;"> Start a spi transfer and receive one byte.
+</span><span style="color:#a0cfa1;">//</span><span style="color:#87ae86;"> `flags` are flags, written into `SPICNT`.
+</span><span style="color:#a0cfa1;">//</span><span style="color:#87ae86;"> With `hold`=1 you can enable chipselect hold.
+</span><span style="color:#a0cfa1;">//</span><span style="color:#87ae86;"> the function returns the first received value.
+</span><span>uint8 </span><span style="color:#fffd87;">fun_227c</span><span>(</span><span style="color:#fffb9d;">uint </span><span>flags, </span><span style="color:#fffb9d;">uint </span><span>hold) {
+</span><span>	</span><span style="color:#a0cfa1;">//</span><span style="color:#87ae86;"> this line is strange. `hold &lt;&lt; 11` should work the same.
+</span><span>	flags </span><span style="color:#ececec;">|= </span><span>(hold </span><span style="color:#ececec;">* </span><span style="font-weight:bold;color:#87d6d5;">3</span><span>) </span><span style="color:#ececec;">&lt;&lt; </span><span style="font-weight:bold;color:#87d6d5;">11</span><span>;
+</span><span>	flags </span><span style="color:#ececec;">|=</span><span> SPICNT_ENABLE;
+</span><span>	flags </span><span style="color:#ececec;">&amp;= </span><span style="font-weight:bold;color:#87d6d5;">0xffff</span><span>;
+</span><span>	</span><span style="color:#fed6af;">while </span><span>(SPICNT </span><span style="color:#ececec;">&amp;</span><span> SPICNT_BUSY);
+</span><span>	SPICNT </span><span style="color:#ececec;">=</span><span> flags;
+</span><span>	</span><span style="color:#a0cfa1;">//</span><span style="color:#87ae86;"> write dummy value, so transfer starts
+</span><span>	SPIDATA </span><span style="color:#ececec;">=</span><span> flags;
+</span><span>	</span><span style="color:#a0cfa1;">//</span><span style="color:#87ae86;"> wait for a transfer cycle
+</span><span>	</span><span style="color:#fed6af;">while </span><span>(SPICNT </span><span style="color:#ececec;">&amp; </span><span style="font-weight:bold;color:#87d6d5;">0x80</span><span>);
+</span><span>	</span><span style="color:#a0cfa1;">//</span><span style="color:#87ae86;"> read the received value
+</span><span>	</span><span style="color:#fed6af;">return</span><span> SPIDATA;
+</span><span>}
+</span><span>
+</span><span style="color:#a0cfa1;">//</span><span style="color:#87ae86;"> Start a spi transmission and send the byte `val`.
+</span><span style="color:#a0cfa1;">//</span><span style="color:#87ae86;"> `flags` are flags, written into `SPICNT`.
+</span><span style="color:#a0cfa1;">//</span><span style="color:#87ae86;"> With `hold`=1 you can enable chipselect hold.
+</span><span style="color:#fffb9d;">void </span><span style="color:#fffd87;">fun_2368</span><span>(</span><span style="color:#fffb9d;">uint </span><span>flags, uint8 val, </span><span style="color:#fffb9d;">uint </span><span>hold) {
+</span><span>	</span><span style="color:#a0cfa1;">//</span><span style="color:#87ae86;"> this line is strange. `hold &lt;&lt; 11` should work the same.
+</span><span>	flags </span><span style="color:#ececec;">|= </span><span>(hold </span><span style="color:#ececec;">* </span><span style="font-weight:bold;color:#87d6d5;">3</span><span>) </span><span style="color:#ececec;">&lt;&lt; </span><span style="font-weight:bold;color:#87d6d5;">11</span><span>;
+</span><span>	flags </span><span style="color:#ececec;">|=</span><span> SPICNT_ENABLE;
+</span><span>	flags </span><span style="color:#ececec;">&amp;= </span><span style="font-weight:bold;color:#87d6d5;">0xffff</span><span>;
+</span><span>	</span><span style="color:#fed6af;">while </span><span>(SPICNT </span><span style="color:#ececec;">&amp;</span><span> SPICNT_BUSY);
+</span><span>	SPICNT </span><span style="color:#ececec;">=</span><span> flags;
+</span><span>	</span><span style="color:#a0cfa1;">//</span><span style="color:#87ae86;"> write dummy value, so transfer starts
+</span><span>	SPIDATA </span><span style="color:#ececec;">=</span><span> val;
+</span><span>}
+</span><span>
+</span><span style="color:#a0cfa1;">//</span><span style="color:#87ae86;"> utility union to access the individual bytes of an integer
+</span><span style="color:#fffb9d;">union </span><span>r32 {
+</span><span>  </span><span style="color:#fffb9d;">uint</span><span> u32;
+</span><span>  uint8 bytes;
+</span><span>};
+</span><span>
+</span><span style="color:#a0cfa1;">//</span><span style="color:#87ae86;"> receive `count` bytes from a spi transmission into the `dst` buffer.
+</span><span style="color:#a0cfa1;">//</span><span style="color:#87ae86;"> If you want to continue the transmission, set `hold`=1, else `hold`=0.
+</span><span style="color:#fffb9d;">void </span><span style="color:#fffd87;">fun_22d6</span><span>(</span><span style="color:#fffb9d;">uint </span><span>flags, </span><span style="color:#fffb9d;">uint </span><span style="color:#ececec;">*</span><span>dst, </span><span style="color:#fffb9d;">int </span><span>count, </span><span style="color:#fffb9d;">uint </span><span>hold) {
+</span><span>  </span><span style="color:#a0cfa1;">//</span><span style="color:#87ae86;"> wft, no idea what this is for. Is it a bug? Or is it a feature™?
+</span><span>  </span><span style="color:#fed6af;">if </span><span>(count </span><span style="color:#ececec;">&lt; </span><span style="font-weight:bold;color:#87d6d5;">0</span><span>)
+</span><span>    count </span><span style="color:#ececec;">-= </span><span style="font-weight:bold;color:#87d6d5;">0x40000000</span><span>;
+</span><span>  </span><span style="color:#a0cfa1;">//</span><span style="color:#87ae86;"> align to 32-bit
+</span><span>  count </span><span style="color:#ececec;">&amp;= ~</span><span style="font-weight:bold;color:#87d6d5;">3</span><span>;
+</span><span>  </span><span style="color:#fed6af;">while </span><span>(SPICNT </span><span style="color:#ececec;">&amp;</span><span> SPICNT_BUSY);
+</span><span>  </span><span style="color:#fffb9d;">uint </span><span style="color:#ececec;">*</span><span>end </span><span style="color:#ececec;">= </span><span>(</span><span style="color:#fffb9d;">uint</span><span style="color:#ececec;">*</span><span>) ((uint8</span><span style="color:#ececec;">*</span><span>) dst </span><span style="color:#ececec;">+</span><span> count);
+</span><span>  </span><span style="color:#fed6af;">for </span><span>(r32 val; dst </span><span style="color:#ececec;">&lt;</span><span> end; </span><span style="color:#ececec;">++</span><span>dst) {
+</span><span>    val.u32 </span><span style="color:#ececec;">= </span><span style="font-weight:bold;color:#87d6d5;">0</span><span>;
+</span><span>    </span><span style="color:#fed6af;">for </span><span>(</span><span style="color:#fffb9d;">uint</span><span> idx </span><span style="color:#ececec;">= </span><span style="font-weight:bold;color:#87d6d5;">0</span><span>, hold_now </span><span style="color:#ececec;">= </span><span style="font-weight:bold;color:#87d6d5;">1</span><span>; idx </span><span style="color:#ececec;">&lt; </span><span style="font-weight:bold;color:#87d6d5;">4</span><span>; </span><span style="color:#ececec;">++</span><span>idx) {
+</span><span>      </span><span style="color:#a0cfa1;">//</span><span style="color:#87ae86;"> if we transmit the last byte, clear chipselect hold (if specified)
+</span><span>      </span><span style="color:#fed6af;">if </span><span>(dst </span><span style="color:#ececec;">&gt;=</span><span> end </span><span style="color:#ececec;">- </span><span style="font-weight:bold;color:#87d6d5;">1 </span><span style="color:#ececec;">&amp;&amp;</span><span> idx </span><span style="color:#ececec;">== </span><span style="font-weight:bold;color:#87d6d5;">3</span><span>)
+</span><span>        hold_now </span><span style="color:#ececec;">=</span><span> hold;
+</span><span>      </span><span style="color:#a0cfa1;">//</span><span style="color:#87ae86;"> receive a byte
+</span><span>      val.bytes[idx] </span><span style="color:#ececec;">= </span><span>func_227c(flags, hold_now);
+</span><span>    }
+</span><span>    </span><span style="color:#ececec;">*</span><span>dst </span><span style="color:#ececec;">=</span><span> val.u32;
+</span><span>  }
+</span><span>}
+</span></code></pre>
+</div>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
