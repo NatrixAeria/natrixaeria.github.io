@@ -1,41 +1,44 @@
 {% extends "base.html" %}
 
 {% block base_content %}
-    <div id='global-bg'></div>
-    <div class='global-card-container'>
-        <div class='global-card'>
-            <div class='navbar'>
-                <a href='{{config.extra.github_profile_url}}' class='navbar-item'>
-                    <div class='display-flex'>
-                        <img src='/images/github-mark.png'>
-                        <span class='navbar-item-text'>Github Profile</span>
-                    </div>
-                </a>
-                <a href='/nds' class='navbar-item'>
-                    {% set isnds = current_path is defined and current_path is starting_with("/nds") %}
-                    {% if isnds %}<strong>{% endif %}
-                    <div class='navbar-item-text'>NDS Wiki</div>
-                    {% if isnds %}</strong>{% endif %}
-                </a>
-                <a href='/' class='navbar-item'>
-                    {% set isroot = current_path is defined and current_path == "/" %}
-                    <{% if isroot %}strong{%else%}div{%endif%}
-                    class='navbar-item-text'>About Me
-                    </{% if isroot %}strong{%else%}div{%endif%}>
-                </a>
-            </div>
-            <a href='/' class='page-title'>
-                Natri<span class='title-rotating-x'>x</span>Hub
-                <span class='blink-line-container'><span class='blink-line'></span></span>
-            </a>
+<div id='global-bg'></div>
+<div class='global-card-container'>
+  <div class='global-card'>
+    <div class='navbar'>
+      <a href='{{config.extra.github_profile_url}}' class='navbar-item'>
+        <div class='display-flex'>
+          <img src='/images/github-mark.png'>
+          <span class='navbar-item-text'>Github Profile</span>
         </div>
+      </a>
+      <a href='/nds' class='navbar-item'>
+        {% set isnds = current_path is defined and current_path is starting_with("/nds") %}
+        {% if isnds %}<strong>{% endif %}
+          <div class='navbar-item-text'>NDS Wiki</div>
+          {% if isnds %}
+        </strong>{% endif %}
+      </a>
+      <a href='/' class='navbar-item'>
+        {% set isroot = current_path is defined and current_path == "/" %}
+        <{% if isroot %}strong{%else%}div{%endif%} class='navbar-item-text'>About Me
+        </{% if isroot %}strong{%else%}div{%endif%}>
+      </a>
+      <a href='/gol.html' class='navbar-item'>
+        <div class='navbar-item-text'>no-JS Game of Life</div>
+      </a>
     </div>
-    <div class='global-card-container main-content'>
-        <div class='global-card'>
-            <hr class='line-separator' style='margin-bottom: 1cm'>
-            <div class='content-card-container'>
-                <div class='content-card'>{%block content%}{%endblock%}</div>
-            </div>
-        </div>
+    <a href='/' class='page-title'>
+      Natri<span class='title-rotating-x'>x</span>Hub
+      <span class='blink-line-container'><span class='blink-line'></span></span>
+    </a>
+  </div>
+</div>
+<div class='global-card-container main-content'>
+  <div class='global-card'>
+    <hr class='line-separator' style='margin-bottom: 1cm'>
+    <div class='content-card-container'>
+      <div class='content-card'>{%block content%}{%endblock%}</div>
     </div>
+  </div>
+</div>
 {% endblock base_content %}
