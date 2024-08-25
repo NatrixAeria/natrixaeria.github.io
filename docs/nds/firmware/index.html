@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang='tlh-Piqd'>
+    <head>
+        <title>NatrixHub</title>
+        <meta charset='utf-8'/>
+
+        <meta name='author' content='nat-rix'>
+        <meta name='generator' content='zola'>
+        <meta name='keywords' content='playground,github pages'>
+        <meta name='referrer' content='no-referrer'>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="/fonts.css">
+        <link rel="stylesheet" href="/style.css">
+    </head>
+
+    <body>
+<div id='global-bg'></div>
+<div class='global-card-container'>
+  <div class='global-card'>
+    <div class='navbar'>
+      <a href='https:&#x2F;&#x2F;github.com&#x2F;nat-rix' class='navbar-item'>
+        <div class='display-flex'>
+          <img src='/images/github-mark.png'>
+          <span class='navbar-item-text'>Github Profile</span>
+        </div>
+      </a>
+      <a href='/nds' class='navbar-item'>
+        
+        <strong>
+          <div class='navbar-item-text'>NDS Wiki</div>
+          
+        </strong>
+      </a>
+      <a href='/' class='navbar-item'>
+        
+        <div class='navbar-item-text'>About Me
+        </div>
+      </a>
+      <a href='/gol.html' class='navbar-item'>
+        <div class='navbar-item-text'>no-JS Game of Life</div>
+      </a>
+    </div>
+    <a href='/' class='page-title'>
+      Natri<span class='title-rotating-x'>x</span>Hub
+      <span class='blink-line-container'><span class='blink-line'></span></span>
+    </a>
+  </div>
+</div>
+<div class='global-card-container main-content'>
+  <div class='global-card'>
+    <hr class='line-separator' style='margin-bottom: 1cm'>
+    <div class='content-card-container'>
+      <div class='content-card'>
+    <div class='markdown'><h1 id="firmware">Firmware</h1>
+<p>The Nintendo DS firmware is a 256KiB (512KiB for <a rel="noopener noreferrer" target="_blank" href="https://en.wikipedia.org/wiki/IQue">iQue</a>)
+<a rel="noopener noreferrer" target="_blank" href="https://en.wikipedia.org/wiki/Flash_memory#Serial_flash">flash</a> memory, that
+is not memory mapped. You can access it via
+<a rel="noopener noreferrer" target="_blank" href="https://en.wikipedia.org/wiki/Serial_Peripheral_Interface">SPI-bus</a>.</p>
+<h2 id="memory-access">Memory Access</h2>
+<p>Memory access is only possible via <a href="/nds/nds7">NDS7</a> with the <code>SPICNT 0x40001c0</code>
+and the <code>SPIDATA 0x40001c2</code> registers.
+DMA probably isn’t really feasable for reading or writing, because DMA
+has no 8-bit mode (only 16 or 32) and SPI has no functional 16-bit mode.</p>
+</div>
+</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

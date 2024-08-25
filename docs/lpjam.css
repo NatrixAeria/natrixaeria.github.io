@@ -1,0 +1,65 @@
+body {
+    --lpjam-bg: #202020;
+    --lpjam-title-bg: #141414;
+}
+
+#global-background {
+    background: var(--lpjam-bg);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -1000;
+}
+
+.page-content {
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    align-items: center;
+}
+
+.jam-titlebar {
+    background: var(--lpjam-title-bg);
+    padding: .6cm;
+    width: 100%;
+    position: relative;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+}
+
+.jam-headline {
+    font-size: var(--title-font-size);
+    text-align: center;
+    margin-bottom: .6cm;
+    font-weight: lighter;
+}
+
+.jam-x-tag {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.jam-x-tag-lp {
+    filter: sepia(100%) saturate(100) hue-rotate(200deg) brightness(40%) saturate(3);
+    width: calc(var(--title-font-size) * 7) !important;
+    height: auto !important;
+}
+
+.jam-x-tag-x {
+    font-size: calc(var(--title-font-size) * .7);
+    margin: calc(var(--title-font-size) * .3);
+    font-family: monospace;
+}
+
+.jam-x-tag-ld {
+    width: calc(var(--title-font-size) * 7) !important;
+    height: auto !important;
+}
+
+.lpjam-markdown {
+    max-width: 25cm;
+    margin: 0 .6cm;
+}
